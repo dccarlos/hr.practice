@@ -4,10 +4,10 @@
 
 	<groupId>edu.dccarlos</groupId>
 	<artifactId>hr.practice</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0-RELEASE</version>
 	<packaging>jar</packaging>
 
-	<name>dea</name>
+	<name>hr.practice</name>
 
 	<properties>
 		<junit.version>4.12</junit.version>
