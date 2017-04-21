@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class SparceArrays {
+public class SparseArrays {
 	
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
