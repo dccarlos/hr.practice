@@ -38,8 +38,11 @@ public class MatrixRotation {
 			printArray(matrix);
 		}
 	}
-
-	public static final void printArray(int[][] array) {
+	
+	/**
+	 * Print the array (HR problem statement).
+	 */
+	public static final void printArray(final int[][] array) {
 		for(int row = 0; row < array.length; row++) {
 			for(int column = 0; column < array[row].length; column++) {
 				System.out.print(array[row][column] + " ");
@@ -51,11 +54,15 @@ public class MatrixRotation {
 		System.out.println();
 	}
 
-	public static final void rotateLeft(int[][] matrix, int rotations) {
+	/**
+	 * Rotates 'rotations' left the squares of a matrix.
+	 */
+	public static final void rotateLeft(final int[][] matrix, final int rotations) {
 		final int rows = matrix.length;
 		final int columns = matrix[0].length;
 		final int numberOfsquares = getNumberOfSquares(rows, columns);
 
+		// Matrix element holder.
 		class Element {
 			public final int rotationIndex;
 			public final int rowIndex;
@@ -63,51 +70,60 @@ public class MatrixRotation {
 			public final int value;
 
 			public Element(final int index, final int rowIndex, final int columnIndex, final int squareLength, final int rotations, final int value) {
-				this.rotationIndex = getLeftRotationIndex(squareLength, index, rotations);
+				this.rotationIndex = getLeftRotationIndex(squareLength, index, rotations); // This calculates the rotation position of 'index'.
 				this.rowIndex = rowIndex;
 				this.columnIndex = columnIndex;
 				this.value = value;
 			}
 		}
 
+		// For every processable square: create a list of elements and then assign them to a matrix with their rotation position
 		for(int square = 0; square < numberOfsquares; square++) {
 			final int innerRows = rows - square * 2;
 			final int innerColumns = columns - square * 2;
-			final int squareLength = 2 * innerColumns + 2 * innerRows - 4;
+			final int squareLength = 2 * innerColumns + 2 * innerRows - 4; // Square length
 
 			final List<Element> elements = new ArrayList<>();
 
+			// Matrix's upper array
 			for(int upper = 0; upper < innerColumns; upper++) {
 				final int row = square;
 				final int column = square + upper;
 				elements.add(new Element(elements.size(), row, column, squareLength, rotations, matrix[row][column]));
 			}
 
+			// Matrix's right array
 			for(int right = 1; right < innerRows; right++) {
 				final int row = square + right;
 				final int column = square + innerColumns - 1;
 				elements.add(new Element(elements.size(), row, column, squareLength, rotations, matrix[row][column]));
 			}
 
+			// Matrix's lower array
 			for(int lower = innerColumns - 2; lower > -1; lower--) {
 				final int row = square + innerRows - 1;
 				final int column = square + lower;
 				elements.add(new Element(elements.size(), square + (innerRows - 1), square + lower, squareLength, rotations, matrix[row][column]));
 			}
 
+			// Matrix's left array
 			for(int left = innerRows - 2; left > 0; left--) {
 				final int row = square + left;
 				final int column = square;
 				elements.add(new Element(elements.size(), row, column, squareLength, rotations, matrix[row][column]));
 			}
 
+			// Rotate and assign
 			for(Element e : elements) {
-				Element rotation = elements.get(e.rotationIndex);
+				final Element rotation = elements.get(e.rotationIndex);
 				matrix[rotation.rowIndex][rotation.columnIndex] = e.value;
 			}
 		}
 	}
 
+	/**
+	 * Given a matrix with 'rows' rows and 'columns' columns this method will calculate the number of processable inner squares.
+	 */
 	public static final int getNumberOfSquares(int rows, int columns) {
 		int innerRows = 0;
 		int innerColumns = 0;
@@ -125,6 +141,10 @@ public class MatrixRotation {
 		return Math.min(innerRows, innerColumns);
 	}
 
+	/**
+	 * This is method is the key to the problem solution success. Given an initial position 'initial position' It obtains a transformed
+	 * position if an array o length 'length' when it rotates 'rotation' times.
+	 */
 	public static final int getLeftRotationIndex(final int length, int initialPosition, int rotations) {
 		rotations = (rotations % length);
 
@@ -135,7 +155,7 @@ public class MatrixRotation {
 				initialPosition = length - 1;
 			}
 		}
-		
+
 		return initialPosition;
 	}
 }
