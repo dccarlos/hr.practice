@@ -149,11 +149,10 @@ public class MatrixRotation {
 		rotations = (rotations % length);
 
 		for(int m = rotations; m > 0; m--) {
-			if(initialPosition > 0) {
+			if(initialPosition > 0)
 				initialPosition--;
-			} else {
+			else
 				initialPosition = length - 1;
-			}
 		}
 
 		return initialPosition;
